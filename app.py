@@ -17,6 +17,7 @@ SHEET_ID = "11_mLLdGgClBaKvRH9VPHWbm4qw3go66MTwK-dPAzjj0"
 GID_RADIO = "1406362772"
 ANO = 2026
 ALTURA_PAINEL = 2600  # altura da área do painel em pixels
+SO_SHE = True  # True = mostra só linhas da campanha SHE
 
 # nome interno -> cabeçalho na planilha
 COLS = {
@@ -107,6 +108,8 @@ def carregar():
     for _, r in bruto.iloc[linha + 1:].iterrows():
         g = {k: str(r.iloc[i]).strip() for k, i in pos.items()}
         if not g["u"] and not g["radio"]:
+            continue
+        if SO_SHE and "SHE" not in g["t"].upper():
             continue
         st_norm = g["st"].lower()
         g["st"] = STATUS_TROCA.get(st_norm, g["st"])
